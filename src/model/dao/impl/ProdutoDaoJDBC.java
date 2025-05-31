@@ -3,9 +3,16 @@ package model.dao.impl;
 import model.dao.ProdutoDao;
 import model.entities.Produto;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
+
+    private Connection conn;
+
+    public ProdutoDaoJDBC(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override
     public void insert(Produto p) {
