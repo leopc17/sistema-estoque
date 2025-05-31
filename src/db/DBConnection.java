@@ -10,6 +10,7 @@ import java.util.Properties;
 public class DBConnection {
 
     private static Properties properties = new Properties();
+    private static final String PATH = "resources\\db.properties"; // Caminho do arquivo db.properties
     private static final String URL;
     private static final String USER;
     private static final String PASSWORD;
@@ -17,7 +18,7 @@ public class DBConnection {
     // Bloco de código executado apenas uma vez quando a classe é carregada pela primeira vez
     static {
         // Carrega as propriedades do arquivo db.properties
-        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("resources\\db.properties")) {
+        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream(PATH)) {
             if (input == null) {
                 throw new RuntimeException("Arquivo db.properties não encontrado. Verifique o caminho.");
             }
