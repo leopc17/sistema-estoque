@@ -35,13 +35,35 @@ public class ProdutoDaoJDBC implements ProdutoDao {
     }
 
     @Override
-    public void update(Produto p) {
-
+    public void update(Produto p) throws SQLException {
+        String sql = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, quantidade = ? WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, p.getNome());
+            stmt.setString(2, p.getDescricao());
+            stmt.setBigDecimal(3, p.getPreco());
+            stmt.setInt(4, p.getQuantidade());
+            stmt.setLong(5, p.getId());
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("ProdutoDaoJdbc: Nenhuma linha afetada na atualização para o Produto ID " + p.getId() + ".");
+            } else {
+                System.out.println("ProdutoDaoJdbc: Produto atualizado com sucesso. ID: " + p.getId());
+            }
+        }
     }
 
     @Override
-    public void delete(int ID) {
-
+    public void delete(int ID) throws SQLException {
+        String sql = "DELETE FROM produtos WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, ID);
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("ProdutoDaoJdbc: Nenhuma linha afetada na exclusão para o Produto ID " + ID + ".");
+            } else {
+                System.out.println("ProdutoDaoJdbc: Produto excluído com sucesso. ID: " + ID);
+            }
+        }
     }
 
     @Override
@@ -79,8 +101,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
         produto.setId(rs.getInt("id"));
         produto.setNome(rs.getString("nome"));
         produto.setDescricao(rs.getString("descricao"));
-        produto.setPreco(rs.getBigDecimal("preco"));     // Ordem alterada
-        produto.setQuantidade(rs.getInt("quantidade"));  // Ordem alterada
+        produto.setPreco(rs.getBigDecimal("preco"));
+        produto.setQuantidade(rs.getInt("quantidade"));
         return produto;
     }
 }
