@@ -4,6 +4,7 @@ import model.dao.ProdutoDao;
 import model.entities.Produto;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
@@ -60,8 +61,17 @@ public class ProdutoDaoJDBC implements ProdutoDao {
     }
 
     @Override
-    public List<Produto> findAll() {
-        return List.of();
+    public List<Produto> findAll() throws SQLException {
+        List<Produto> produtos = new ArrayList<>();
+        String sql = "SELECT id, nome, descricao, preco, quantidade FROM produtos";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                produtos.add(mapRowToProduto(rs));
+            }
+            System.out.println("ProdutoDaoJdbc: Listados " + produtos.size() + " produtos do banco de dados.");
+        }
+        return produtos;
     }
 
     private Produto mapRowToProduto(ResultSet rs) throws SQLException {
