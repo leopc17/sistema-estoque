@@ -38,17 +38,28 @@ public class ProdutoDaoValidationDecorator implements ProdutoDao {
 
     @Override
     public void update(Produto p) {
-
+        if (p.getId() <= 0) {
+            throw new IllegalArgumentException("ID do produto não pode ser menor ou igual a zero para atualização.");
+        }
+        productValidation(p);
+        decorated.update(p);
     }
 
     @Override
     public void delete(int ID) {
-
+        if (ID <= 0) {
+            throw new IllegalArgumentException("ID do produto inválido para exclusão.");
+        }
+        decorated.delete(ID);
     }
 
     @Override
     public Produto findById(int ID) {
-        return null;
+        if (ID <= 0) {
+            throw new IllegalArgumentException("ID do produto inválido para exclusão.");
+        }
+
+        return decorated.findById(ID);
     }
 
     @Override
