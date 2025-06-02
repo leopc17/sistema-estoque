@@ -26,7 +26,7 @@ public class ProdutoService {
 
         // pode adicionar mais regras de negócio, caso necessário
 
-        produtoDao.insert(p);
+//        produtoDao.insert(p);
     }
 
     public void atualizar(Produto p) {
@@ -38,11 +38,11 @@ public class ProdutoService {
     }
 
     public List<Produto> listar() {
-        return produtoDao.findAll();
+        return List.of();
     }
 
     public Produto buscar(int id) {
-        return produtoDao.findById(id);
+        return null;
     }
 
     public void entradaEstoque(int quantidade) {
