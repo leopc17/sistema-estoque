@@ -3,6 +3,7 @@ package model.dao;
 import model.entities.Produto;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProdutoDaoValidationDecorator implements ProdutoDao {
@@ -31,13 +32,13 @@ public class ProdutoDaoValidationDecorator implements ProdutoDao {
     }
 
     @Override
-    public void insert(Produto p) {
+    public void insert(Produto p) throws SQLException {
         productValidation(p);
         decorated.insert(p);
     }
 
     @Override
-    public void update(Produto p) {
+    public void update(Produto p) throws SQLException {
         if (p.getId() <= 0) {
             throw new IllegalArgumentException("ID do produto não pode ser menor ou igual a zero para atualização.");
         }
@@ -46,7 +47,7 @@ public class ProdutoDaoValidationDecorator implements ProdutoDao {
     }
 
     @Override
-    public void delete(int ID) {
+    public void delete(int ID) throws SQLException {
         if (ID <= 0) {
             throw new IllegalArgumentException("ID do produto inválido para exclusão.");
         }
@@ -54,7 +55,7 @@ public class ProdutoDaoValidationDecorator implements ProdutoDao {
     }
 
     @Override
-    public Produto findById(int ID) {
+    public Produto findById(int ID) throws SQLException {
         if (ID <= 0) {
             throw new IllegalArgumentException("ID do produto inválido para exclusão.");
         }
@@ -63,7 +64,7 @@ public class ProdutoDaoValidationDecorator implements ProdutoDao {
     }
 
     @Override
-    public List<Produto> findAll() {
+    public List<Produto> findAll() throws SQLException {
         return decorated.findAll();
     }
 }
