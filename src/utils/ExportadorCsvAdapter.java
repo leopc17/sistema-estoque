@@ -18,7 +18,7 @@ public class ExportadorCsvAdapter implements ExportadorProdutos {
                         p.getNome() + ";" +
                         p.getDescricao() + ";" +
                         String.format("%.2f", p.getPreco()) + ";" +
-                        p.getQuantidade() + ";" + "\n"
+                        p.getQuantidade() + "\n"
                 );
             }
         } catch (IOException e) {
