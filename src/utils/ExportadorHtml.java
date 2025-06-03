@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class ExportadorHtmlAdapter implements ExportadorProdutos {
+public class ExportadorHtml implements ExportadorProdutos {
 
     @Override
     public void exportar(List<Produto> produtos, String nomeArquivo) {
