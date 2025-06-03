@@ -73,3 +73,51 @@ public class Menu {
         } while (opcao != 0);
         sc.close();
     }
+
+    private void cadastrarProduto() {
+        System.out.println("\n--- CADASTRAR PRODUTO ---");
+        System.out.print("ID: ");
+        int id = obterInteiro();
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+        System.out.print("Descrição: ");
+        String descricao = sc.nextLine();
+        System.out.print("Preço: ");
+        BigDecimal preco = obterBigDecimal();
+        System.out.print("Quantidade Inicial: ");
+        int quantidade = obterInteiro();
+
+        Produto p = new Produto(id, nome, descricao, preco, quantidade);
+        produtoService.cadastrar(p);
+    }
+
+    // Métodos auxiliares
+
+    private int obterInteiro() {
+        while (true) {
+            try {
+                int valor = sc.nextInt();
+                sc.nextLine(); // Consumir a quebra de linha
+                return valor;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número inteiro.");
+                sc.nextLine(); // Consumir a entrada inválida
+                System.out.print("Tente novamente: ");
+            }
+        }
+    }
+
+    private BigDecimal obterBigDecimal() {
+        while (true) {
+            try {
+                BigDecimal valor = sc.nextBigDecimal();
+                sc.nextLine(); // Consumir a quebra de linha
+                return valor;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Por favor, digite um número decimal (ex: 12.34).");
+                sc.nextLine(); // Consumir a entrada inválida
+                System.out.print("Tente novamente: ");
+            }
+        }
+    }
+}
