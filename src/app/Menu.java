@@ -2,6 +2,10 @@ package app;
 
 import model.entities.Produto;
 import service.ProdutoService;
+import utils.ExportadorCsvAdapter;
+import utils.ExportadorHtml;
+import utils.ExportadorProdutos;
+import utils.RelatorioCsv;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -71,13 +75,23 @@ public class Menu {
                     }
             }
         } while (opcao != 0);
+
+        // exporta produtos no final
+
+        ExportadorProdutos ex = new ExportadorHtml();
+
+        List<Produto> lista = produtoService.listar();
+
+        ex.exportar(lista, "relatorio");
+
+        ex = new ExportadorCsvAdapter(new RelatorioCsv()); // utiliza o adapter para adequar a classe legado a nova interface
+        ex.exportar(lista, "relatorio");
+
         sc.close();
     }
 
     private void cadastrarProduto() {
         System.out.println("\n--- CADASTRAR PRODUTO ---");
-        System.out.print("ID: ");
-        int id = obterInteiro();
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("Descrição: ");
@@ -87,7 +101,7 @@ public class Menu {
         System.out.print("Quantidade Inicial: ");
         int quantidade = obterInteiro();
 
-        Produto p = new Produto(id, nome, descricao, preco, quantidade);
+        Produto p = new Produto(0, nome, descricao, preco, quantidade); // o id será determinado pelo banco de dados
         produtoService.cadastrar(p);
     }
 
@@ -178,7 +192,7 @@ public class Menu {
         System.out.print("Quantidade a remover: ");
         int quantidade = obterInteiro();
 
-        produtoService.entradaEstoque(id, quantidade);
+        produtoService.saidaEstoque(id, quantidade);
     }
 
     // Métodos auxiliares
